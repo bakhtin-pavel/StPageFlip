@@ -166,14 +166,19 @@ export abstract class UI {
         };
     }
 
-    private checkTarget(targer: EventTarget): boolean {
-        if (!this.app.getSettings().clickEventForward) return true;
+    private checkTarget(target: EventTarget): boolean {
+      if (!this.app.getSettings().clickEventForward) return true;
 
-        if (['a', 'button'].includes((targer as HTMLElement).tagName.toLowerCase())) {
-            return false;
-        }
+      const element = target as HTMLElement;
 
-        return true;
+      if (
+          ['a', 'button'].includes(element.tagName.toLowerCase()) ||
+          element.closest('.info')
+      ) {
+          return false;
+      }
+
+      return true;
     }
 
     private onMouseDown = (e: MouseEvent): void => {
